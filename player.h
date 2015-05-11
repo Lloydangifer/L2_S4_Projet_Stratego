@@ -3,5 +3,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+
+#define BUFSIZE 1024
 
 #endif
