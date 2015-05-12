@@ -5,10 +5,20 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <assert.h>
+#include <stdbool.h>
 
+struct square{
+    size_t value;
+    bool team;
+};
 struct game{
-    int board[DIMENSION][DIMENSION];
+    struct square board[DIMENSION][DIMENSION];
+};
+struct position{
+    size_t posX;
+    size_t posY;
 };
 
 void create_game(struct game *stratego); // initialize the board with empty cells and 2 lakes

@@ -13,7 +13,7 @@ referee.o : referee.c referee.h game.h
 	${CC} -c ${CFLAGS} -o referee.o referee.c
 player.o: player.c player.h game.h
 	${CC} -c ${CFLAGS} -o player.o player.c
-play.o: play.c play.h
+play.o: play.c play.h game.h
 	${CC} -c ${CFLAGS} -o play.o play.c
 game.o: game.c game.h
 	${CC} -c ${CFLAGS} -o game.o game.c

@@ -25,12 +25,15 @@ int main(int argc,char **argv){
         fprintf(stderr,"Bad placement\n");
         return EXIT_FAILURE;
     }
-    else{
+    else if(strcmp(buffer,"OK")==0){
         fprintf(stderr,"Good placement\n");
+    }
+    else{
+        fprintf(stderr,"What ?!\n");
     }
     create_game(&stratego);
     init_game(&stratego,playerNumber,piece);
-    while(1==1){
+    //while(1==1){
        /* fread(buffer,sizeof(char),BUFSIZE,in);
         for(int i=0;i<BUFSIZE;i++){
             if(buffer[i]=='\n'){
@@ -45,7 +48,7 @@ int main(int argc,char **argv){
             fprintf(stderr,"Error code get, i'm sorry...");
             return EXIT_FAILURE;
         }*/
-    }
+    //}
     //print_game(&stratego);
     return EXIT_SUCCESS;
 }
