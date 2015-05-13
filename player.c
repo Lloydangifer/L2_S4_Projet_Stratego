@@ -33,9 +33,15 @@ int main(int argc,char **argv){
     }
     create_game(&stratego);
     init_game(&stratego,playerNumber,piece);
-    //while(1==1){
-       /* fread(buffer,sizeof(char),BUFSIZE,in);
-        for(int i=0;i<BUFSIZE;i++){
+	if (playerNumber==0){
+		send_piece();
+	}else if(playerNumber==1){
+		char *str="B6\nW\n1\n";
+		fwrite(str, sizeof(char),8, stdout);
+    		fflush(stdout);
+	}
+    while(1==1){
+        /*for(int i=0;i<BUFSIZE;i++){
             if(buffer[i]=='\n'){
 
             }
@@ -48,7 +54,7 @@ int main(int argc,char **argv){
             fprintf(stderr,"Error code get, i'm sorry...");
             return EXIT_FAILURE;
         }*/
-    //}
+    }
     //print_game(&stratego);
     return EXIT_SUCCESS;
 }
