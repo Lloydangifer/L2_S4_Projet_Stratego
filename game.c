@@ -60,7 +60,7 @@ void print_game(const struct game *stratego){ // print the board, we use it for 
                 printf("? ");
             }
             else{
-                printf("%d ",stratego->board[y][x].value);
+                printf("%ld ",stratego->board[y][x].value);
             }
         }
         printf("\n");
