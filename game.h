@@ -20,6 +20,15 @@ struct position{
     size_t posX;
     size_t posY;
 };
+struct direction{
+    int dirX;
+    int dirY;
+    char value;
+};
+struct piece{
+    size_t value;
+    struct position pos;
+};
 
 void create_game(struct game *stratego); // initialize the board with empty cells and 2 lakes
 void init_game(struct game *stratego,size_t playerNumber,int *piece); // place the pieces based on the player's number
