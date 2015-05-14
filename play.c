@@ -50,7 +50,7 @@ bool position_is_valid(const struct game *stratego, const size_t x,const size_t 
     }
     return false;
 }
-void select_first_movable_piece(const struct game *stratego,struct piece *p,struct direction *dir){
+void select_first_movable_piece(const struct game *stratego,struct piece *p,struct direction *dir){ // this function set p to the first movable piece of the team found
     size_t pY=0;
     size_t pX=0;
     bool filled=false;
@@ -72,7 +72,7 @@ void select_first_movable_piece(const struct game *stratego,struct piece *p,stru
         destination.posY+=pY;
     }while(filled==false);
 }
-void select_strongest_movable_piece(const struct game *stratego,size_t playerNumber,struct piece *p,struct direction *dir){
+void select_strongest_movable_piece(const struct game *stratego,size_t playerNumber,struct piece *p,struct direction *dir){ // search for the strongest movable piece of the team on the board
     assert(playerNumber<2);
     select_first_movable_piece(stratego,p,dir);
     for(size_t y=0;y<DIMENSION;y++){
@@ -107,4 +107,12 @@ void send_piece(){
     char *str="A3\nE\n1\n";
     fwrite(str, sizeof(char),8, stdout);
     fflush(stdout);
+}
+void convert_position(struct position pos,char *buffer){ // convert a position to a sendable format to the referee
+    sprintf(buffer,"%ld",pos.posY);
+    buffer+=17;
+    sprintf(buffer,"%ld",pos.posX);
+
+
+
 }

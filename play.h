@@ -8,6 +8,8 @@
 #include <stdbool.h>
 #include "game.h"
 
+#define BUFSIZE 1024
+
 void set_North(struct direction *dir);
 void set_South(struct direction *dir);
 void set_East(struct direction *dir);
@@ -20,5 +22,6 @@ void select_strongest_movable_piece(const struct game *stratego,size_t playerNum
 void select_move(const struct game *stratego,size_t playerNumber);
 void move_piece();
 void send_piece();
+void convert_position(struct position pos,char *buffer);
 
 #endif

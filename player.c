@@ -20,6 +20,11 @@ int main(int argc,char **argv){
         fwrite("\n",sizeof(char),1,out);
     }
     fflush(out);
+    struct position pos;
+    pos.posY=0;
+    pos.posX=0;
+    convert_position(pos,buffer);
+    printf("buffer:%s\n",buffer);
     fgets(buffer,2,in);
     if(strcmp(buffer,"KO")==0){
         fprintf(stderr,"Bad placement\n");

@@ -7,6 +7,6 @@
 #include <assert.h>
 #include <stdbool.h>
 
-#define BUFSIZE 1024
+
 
 #endif
