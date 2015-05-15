@@ -9,9 +9,9 @@ player: player.o play.o game.o
 	${CC} ${CFLAGS} -o player player.o play.o game.o
 management.o : management.c management.h
 	${CC} -c ${CFLAGS} -o management.o management.c
-referee.o : referee.c referee.h
+referee.o : referee.c
 	${CC} -c ${CFLAGS} -o referee.o referee.c
-player.o: player.c player.h
+player.o: player.c
 	${CC} -c ${CFLAGS} -o player.o player.c
 play.o: play.c play.h
 	${CC} -c ${CFLAGS} -o play.o play.c

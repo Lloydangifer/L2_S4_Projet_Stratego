@@ -1,21 +1,21 @@
 #include "play.h"
 
-void set_North(struct direction *dir){
+void set_North(struct direction *dir){ // set a direction to North
     dir->dirX=0;
     dir->dirY=-1;
     dir->value='N';
 }
-void set_South(struct direction *dir){
+void set_South(struct direction *dir){ // set a direction to South
     dir->dirX=0;
     dir->dirY=1;
     dir->value='S';
 }
-void set_East(struct direction *dir){
+void set_East(struct direction *dir){ // set a direction to East
     dir->dirX=1;
     dir->dirY=0;
     dir->value='E';
 }
-void set_West(struct direction *dir){
+void set_West(struct direction *dir){ // set a direction to West
     dir->dirX=-1;
     dir->dirY=0;
     dir->value='W';
@@ -89,6 +89,13 @@ void select_strongest_movable_piece(const struct game *stratego,size_t playerNum
         }
     }
 }
+void convert_position(struct position pos,char *buffer){ // convert a position to a sendable format to the referee
+    char tmp[BUFSIZE];
+    sprintf(buffer,"%ld",pos.posY);
+    buffer[0]+=17;
+    sprintf(tmp,"%ld",pos.posX);
+    strcat(buffer,tmp);
+}
 void select_move(const struct game *stratego,size_t playerNumber){
     assert(playerNumber<2);
     struct piece p;
@@ -107,12 +114,4 @@ void send_piece(){
     char *str="A3\nE\n1\n";
     fwrite(str, sizeof(char),8, stdout);
     fflush(stdout);
-}
-void convert_position(struct position pos,char *buffer){ // convert a position to a sendable format to the referee
-    sprintf(buffer,"%ld",pos.posY);
-    buffer+=17;
-    sprintf(buffer,"%ld",pos.posX);
-
-
-
 }

@@ -7,6 +7,4 @@
 #include <assert.h>
 #include <stdbool.h>
 
-
-
 #endif
