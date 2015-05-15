@@ -3,46 +3,38 @@
 
 int main(int argc,char **argv){
     struct game stratego;
-    FILE *out=stdout;
     FILE *in=stdin;
-    int piece[40]={9,7,6,5,8,12,7,9,12,7,12,9,9,4,10,6,8,3,2,9,12,6,9,5,11,12,4,8,12,6,4,1,8,5,3,9,8,7,9,5};
-    char buffer[BUFSIZE];
+    int piece[NBPIECES]={9,7,6,5,8,12,7,9,12,7,12,9,9,4,10,6,8,3,2,9,12,6,9,5,11,12,4,8,12,6,4,1,8,5,3,9,8,7,9,5};
+    char *buffer=calloc(BUFSIZE,sizeof(char));
     char bufPNumber=NULL; //buffer for the player's number
     fread(&bufPNumber,sizeof(char),1,in);
     int playerNumber=bufPNumber-'0';
     if(playerNumber==1){
-        swap_side(piece,40);
+        swap_side(piece,NBPIECES);
     }
-    for(int i=0;i<40;i++){
-        sprintf(buffer,"%d",piece[i]);
-        fwrite(buffer,sizeof(char),2,out);
-        fwrite("\n",sizeof(char),1,out);
+    for(int i=0;i<NBPIECES;i++){
+        sprintf(buffer,"%d\n",piece[i]);
+        send_move(buffer);
     }
-    fflush(out);
-    struct position pos;
-    pos.posY=0;
-    pos.posX=0;
-    convert_position(pos,buffer);
-    printf("buffer:%s\n",buffer);
-    fgets(buffer,2,in);
+    receive_move(buffer);
     if(strcmp(buffer,"KO")==0){
-        fprintf(stderr,"Bad placement\n");
+        fprintf(stderr,"Bad placement\nreçu%s",buffer);
         return EXIT_FAILURE;
     }
     else if(strcmp(buffer,"OK")==0){
-        fprintf(stderr,"Good placement\n");
+        fprintf(stderr,"Good placement\nreçu%s",buffer);
     }
     else{
-        fprintf(stderr,"What ?!\n");
+        fprintf(stderr,"What ?!\nreçu:%s",buffer);
     }
     create_game(&stratego);
     init_game(&stratego,playerNumber,piece);
 	if (playerNumber==0){
-		send_piece();
+        select_move(&stratego,playerNumber,buffer);
+		send_move(buffer);
 	}else if(playerNumber==1){
 		char *str="B6\nW\n1\n";
-		fwrite(str, sizeof(char),8, stdout);
-    		fflush(stdout);
+		send_move(str);
 	}
     while(1==1){
         /*for(int i=0;i<BUFSIZE;i++){

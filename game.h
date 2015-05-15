@@ -2,6 +2,7 @@
 #define GAME_H
 
 #define DIMENSION 10
+#define NBPIECES 40
 
 #include <stdlib.h>
 #include <stdio.h>

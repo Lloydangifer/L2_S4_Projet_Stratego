@@ -6,6 +6,7 @@
 #include <string.h>
 #include <assert.h>
 #include <stdbool.h>
+#include <unistd.h>
 #include "game.h"
 
 #define BUFSIZE 1024
@@ -20,9 +21,10 @@ bool position_is_valid(const struct game *stratego, const size_t x,const size_t 
 void select_first_movable_piece(const struct game *stratego,struct piece *p,struct direction *dir); // this function set p to the first movable piece of the team found
 void select_strongest_movable_piece(const struct game *stratego,size_t playerNumber,struct piece *p,struct direction *dir); // search for the strongest movable piece of the team on the board
 void convert_position(struct position pos,char *buffer); // convert a position to a sendable format to the referee
-void select_move(const struct game *stratego,size_t playerNumber);
+void select_move(const struct game *stratego,size_t playerNumber,char *buffer); // this function select a piece to move and put the move into the buffer for sending to the referee
 void move_piece();
-void send_piece();
-void convert_position(struct position pos,char *buffer);
+void send_move(char *buffer); // this function write the move in the buffer on the standard out
+void receive_move(char *buffer); // this function read the standard in and write it in the buffer
+
 
 #endif
