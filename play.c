@@ -90,8 +90,7 @@ void select_strongest_movable_piece(const struct game *stratego,size_t playerNum
     }
 }
 void convert_position(struct position pos,char *buffer){ // convert a position to a sendable format to the referee
-    sprintf(buffer,"%ld",pos.posY);
-    buffer[0]+=17;
+    sprintf(buffer,"%c",(char)(pos.posY+'A'));
     sprintf(buffer,"%s%ld",buffer,pos.posX);
 }
 void select_move(const struct game *stratego,size_t playerNumber,char *buffer){ // this function select a piece to move and put the move into the buffer for sending to the referee
@@ -111,7 +110,7 @@ void select_move(const struct game *stratego,size_t playerNumber,char *buffer){ 
     buffer[strlen(buffer)]=dir.value;
     strcat(buffer,"\n");
     sprintf(buffer,"%s%ld",buffer,range);
-    strcat(buffer,"\0");
+    strcat(buffer,"\n");
 }
 void move_piece(){}
 void send_move(char *buffer){ // this function write the move in the buffer on the standard out

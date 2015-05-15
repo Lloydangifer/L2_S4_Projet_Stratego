@@ -45,25 +45,25 @@ void print_game(const struct game *stratego){ // print the board, we use it for 
     for(int y=0;y<DIMENSION;y++){
         for(int x=0;x<DIMENSION;x++){
             if(stratego->board[y][x].value==10){
-                printf("S ");
+                fprintf(stderr,"S ");
             }
             else if(stratego->board[y][x].value==11){
-                printf("F ");
+                fprintf(stderr,"F ");
             }
             else if(stratego->board[y][x].value==12){
-                printf("B ");
+                fprintf(stderr,"B ");
             }
             else if(stratego->board[y][x].value==13){
-                printf("L ");
+                fprintf(stderr,"L ");
             }
             else if(stratego->board[y][x].value==14){
-                printf("? ");
+                fprintf(stderr,"? ");
             }
             else{
-                printf("%ld ",stratego->board[y][x].value);
+                fprintf(stderr,"%ld ",stratego->board[y][x].value);
             }
         }
-        printf("\n");
+        fprintf(stderr,"\n");
     }
-    printf("\n");
+    fprintf(stderr,"\n");
 }

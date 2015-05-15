@@ -4,8 +4,8 @@
 int main(int argc,char **argv){
     struct game stratego;
     int piece[NBPIECES]={9,7,6,5,8,12,7,9,12,7,12,9,9,4,10,6,8,3,2,9,12,6,9,5,11,12,4,8,12,6,4,1,8,5,3,9,8,7,9,5};
-    char *buffer=calloc(BUFSIZE,sizeof(char));
-    receive_move(buffer);
+    char buffer[BUFSIZE];
+    read(0,buffer,BUFSIZE);
     int playerNumber=buffer[0]-'0';
     if(playerNumber==1){
         swap_side(piece,NBPIECES);
@@ -15,21 +15,22 @@ int main(int argc,char **argv){
         sprintf(tmp,"%d\n",piece[i]);
         write(1,tmp,(piece[i]<10)?2:3);
     }
-    send_move(buffer);
-    receive_move(buffer);
-    if(strncasecmp(buffer,"KO",2)==0){
-        fprintf(stderr,"Bad placement\nreçu%s",buffer);
+    size_t sz=read(0,buffer,BUFSIZE);
+    buffer[sz-1]='\0';
+    if(strcmp(buffer,"KO")==0){
+        fprintf(stderr,"Bad placement\n");
         return EXIT_FAILURE;
     }
-    else if(strncasecmp(buffer,"OK",2)==0){
-        fprintf(stderr,"Good placement\nreçu%s",buffer);
+    else if(strcmp(buffer,"OK")==0){
+        fprintf(stderr,"Good placement\n");
     }
     else{
-        fprintf(stderr,"What ?!\nreçu:%s",buffer);
+        fprintf(stderr,"What ?!\n");
         return EXIT_FAILURE;
     }
     create_game(&stratego);
     init_game(&stratego,playerNumber,piece);
+    print_game(&stratego);
 	if (playerNumber==0){
         select_move(&stratego,playerNumber,buffer);
 		send_move(buffer);
