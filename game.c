@@ -19,15 +19,30 @@ void create_game(struct game *stratego){ // initialize the board with empty cell
 void init_game(struct game *stratego,size_t playerNumber, int *piece){ // place the pieces based on the player's number
     assert(playerNumber<2);
     int i=0;
-    for(int y=0;y<DIMENSION;y++){
-        for(int x=0;x<4;x++){ // it only fills the left side
-            stratego->board[y][x].value=piece[i];
-            stratego->board[y][x].team=true;
-            i++;
+    if(playerNumber==0){
+        for(int y=0;y<DIMENSION;y++){
+            for(int x=0;x<4;x++){ // it only fills the left side
+                stratego->board[y][x].value=piece[i];
+                stratego->board[y][x].team=true;
+                i++;
+            }
+            for(int x=6;x<DIMENSION;x++){ // the right side will be filled with unknown pieces to represent the parts of the other player
+                stratego->board[y][x].value=14; // 14 mean a unknow piece
+                stratego->board[y][x].team=false;
+            }
         }
-        for(int x=6;x<DIMENSION;x++){ // the right side will be filled with unknown pieces to represent the parts of the other player
-            stratego->board[y][x].value=14; // 14 mean a unknow piece
-            stratego->board[y][x].team=false;
+    }
+    else{
+        for(int y=0;y<DIMENSION;y++){
+            for(int x=6;x<DIMENSION;x++){ // it only fills the left side
+                stratego->board[y][x].value=piece[i];
+                stratego->board[y][x].team=true;
+                i++;
+            }
+            for(int x=0;x<4;x++){ // the right side will be filled with unknown pieces to represent the parts of the other player
+                stratego->board[y][x].value=14; // 14 mean a unknow piece
+                stratego->board[y][x].team=false;
+            }
         }
     }
 }
@@ -66,4 +81,15 @@ void print_game(const struct game *stratego){ // print the board, we use it for 
         fprintf(stderr,"\n");
     }
     fprintf(stderr,"\n");
+}
+void update_game(struct game *stratego,struct position pos,struct direction dir,size_t range,bool selfDestruct){ //update the board by moving a piece
+    assert((dir.dirX>0)||(dir.dirY>0));
+    stratego->board[(pos.posY+(dir.dirY*range))][(pos.posX+(dir.dirX*range))].value=stratego->board[pos.posY][pos.posX].value;
+    stratego->board[(pos.posY+(dir.dirY*range))][(pos.posX+(dir.dirX*range))].team=true;
+    stratego->board[pos.posY][pos.posX].value=0;
+    stratego->board[pos.posY][pos.posX].team=false;
+    if(selfDestruct==true){
+        stratego->board[(pos.posY+(dir.dirY*range))][(pos.posX+(dir.dirX*range))].value=0;
+        stratego->board[(pos.posY+(dir.dirY*range))][(pos.posX+(dir.dirX*range))].team=false;
+    }
 }

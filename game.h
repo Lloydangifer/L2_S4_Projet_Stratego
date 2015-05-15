@@ -36,5 +36,6 @@ void create_game(struct game *stratego); // initialize the board with empty cell
 void init_game(struct game *stratego,size_t playerNumber,int *piece); // place the pieces based on the player's number
 void swap_side(int *piece,size_t size); //swap the piece order, the piece most left become the piece most right
 void print_game(const struct game *stratego); // print the board, we use it for debug
+void update_game(struct game *stratego,struct position pos,struct direction dir,size_t range,bool selfDestruct); //update the board by moving a piece
 
 #endif

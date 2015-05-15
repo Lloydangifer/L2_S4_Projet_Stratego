@@ -1,12 +1,12 @@
 CC=gcc
 CFLAGS=-Wall -std=c99 -g
-EXEC=referee player
+EXEC=referee-Loudiyi-Manrique player-Loudiyi-Manrique
 
 all: ${EXEC}
-referee: referee.o game.o management.o
-	${CC} ${CFLAGS} -o referee referee.o game.o management.o
-player: player.o play.o game.o
-	${CC} ${CFLAGS} -o player player.o play.o game.o
+referee-Loudiyi-Manrique: referee.o game.o management.o
+	${CC} ${CFLAGS} -o referee-Loudiyi-Manrique referee.o game.o management.o
+player-Loudiyi-Manrique: player.o play.o game.o
+	${CC} ${CFLAGS} -o player-Loudiyi-Manrique player.o play.o game.o
 management.o : management.c management.h
 	${CC} -c ${CFLAGS} -o management.o management.c
 referee.o : referee.c

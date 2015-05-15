@@ -112,7 +112,54 @@ void select_move(const struct game *stratego,size_t playerNumber,char *buffer){ 
     sprintf(buffer,"%s%ld",buffer,range);
     strcat(buffer,"\n");
 }
-void move_piece(){}
+void move_piece(struct game *stratego,char *move){
+    struct position pos;
+    struct direction dir;
+    size_t range;
+    char code;
+    bool selfDestruct=false;
+    pos.posY=move[0]-'A';
+    pos.posX=move[1]-'0';
+    dir.value=move[3];
+    // set dir based on the direction's value given in the move received
+    if(dir.value=='N'){
+        set_North(&dir);
+    }
+    else if(dir.value=='S'){
+        set_South(&dir);
+    }
+    else if(dir.value=='E'){
+        set_East(&dir);
+    }
+    else if(dir.value=='W'){
+        set_West(&dir);
+    }
+    else{
+        fprintf(stderr,"Error in the received code!\n");
+    }
+    range=move[5]-'0';
+    code=move[7];
+    fprintf(stderr,"Received, after conversion: y:%ld x:%ld dir:%c range:%ld code:%c\n",pos.posY,pos.posX,dir.value,range,code);
+    if(code=='N'){
+        update_game(stratego,pos,dir,range,selfDestruct);
+    }
+    else if(code=='B'){
+        size_t attacker=move[9]-'0';
+        size_t defender=move[11]-'0';
+        if(attacker<defender){
+            update_game(stratego,pos,dir,range,selfDestruct);
+        }
+        else if(attacker>defender){
+            range=0;
+            update_game(stratego,pos,dir,range,selfDestruct);
+        }
+        else{
+            selfDestruct=true;
+            update_game(stratego,pos,dir,range,selfDestruct);
+        }
+
+    }
+}
 void send_move(char *buffer){ // this function write the move in the buffer on the standard out
     write(1,buffer,strlen(buffer));
 }

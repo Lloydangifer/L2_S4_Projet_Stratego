@@ -5,6 +5,8 @@ int main(int argc,char **argv){
     struct game stratego;
     int piece[NBPIECES]={9,7,6,5,8,12,7,9,12,7,12,9,9,4,10,6,8,3,2,9,12,6,9,5,11,12,4,8,12,6,4,1,8,5,3,9,8,7,9,5};
     char buffer[BUFSIZE];
+    char bufsended[BUFSIZE];
+    char bufreceived[BUFSIZE];
     read(0,buffer,BUFSIZE);
     int playerNumber=buffer[0]-'0';
     if(playerNumber==1){
@@ -31,28 +33,37 @@ int main(int argc,char **argv){
     create_game(&stratego);
     init_game(&stratego,playerNumber,piece);
     print_game(&stratego);
-	if (playerNumber==0){
-        select_move(&stratego,playerNumber,buffer);
-		send_move(buffer);
-	}else if(playerNumber==1){
-		char *str="B6\nW\n1\n";
-		send_move(str);
+    bool hasPlayed=false;
+	if(playerNumber==0){
+        select_move(&stratego,playerNumber,bufsended);
+		send_move(bufsended);
+		fprintf(stderr,"Sended as player 0:\n%s\n",bufsended);
+		hasPlayed=true;
 	}
-    while(1==1){
-        /*for(int i=0;i<BUFSIZE;i++){
-            if(buffer[i]=='\n'){
-
-            }
+    while(true){
+        receive_move(bufreceived);
+        fprintf(stderr,"Received:\n%s\n",bufreceived);
+        if(hasPlayed){
+            strcat(bufsended,bufreceived);
+            hasPlayed=false;
         }
-        if(strcmp(buffer,"F")==0){
-            fprintf(stderr,"Failure code get, U mad opponent ?");
+        else{
+            strcpy(bufsended,bufreceived);
+        }
+        if(bufsended[7]=='F'){
+            fprintf(stderr,"Failure code get\nShut Down\n");
             return EXIT_FAILURE;
         }
-        else if(strcmp(buffer,"E")==0){
-            fprintf(stderr,"Error code get, i'm sorry...");
+        else if(bufsended[7]=='E'){
+            fprintf(stderr,"Error code get\nShut Down\n");
             return EXIT_FAILURE;
-        }*/
+        }
+        move_piece(&stratego,bufsended);
+        print_game(&stratego);
+        select_move(&stratego,playerNumber,bufsended);
+        send_move(bufsended);
+        fprintf(stderr,"Sended:\n%s\n",bufsended);
+        hasPlayed=true;
     }
-    //print_game(&stratego);
     return EXIT_SUCCESS;
 }
